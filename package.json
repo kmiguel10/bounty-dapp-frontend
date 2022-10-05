@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "moralis:sync": "moralis-admin-cli connect-local-devchain --chain hardhat -moralisSubdomain owytddplwn9y.usemoralis.com --frpcPath ./frp/frpc"
   },
   "dependencies": {
     "@web3uikit/core": "^0.1.12",
