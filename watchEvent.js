@@ -97,7 +97,7 @@ async function main() {
             name: "ClaimBounty",
             type: "event",
         },
-        tableName: "CreateBounty",
+        tableName: "ClaimBounty",
         sync_historical: true,
     }
 
@@ -108,6 +108,9 @@ async function main() {
     const claimResponse = await Moralis.Cloud.run("watchContractEvent", claimBountyOptions, {
         useMasterKey: true,
     })
+
+    console.log("Created Response", createdResponse)
+    console.log("Claim Response", claimResponse)
 
     if (createdResponse.success && claimResponse.success) {
         console.log(
