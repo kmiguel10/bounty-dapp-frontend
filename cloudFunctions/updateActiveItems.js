@@ -46,9 +46,9 @@ Moralis.Cloud.afterSave("ClaimBounty", async (request) => {
         //get ActiveItem table
         const ActiveItem = Moralis.Object.extend("ActiveItem")
         const query = new Moralis.Query(ActiveItem)
-        query.equalTo("uid", request.object.get("uid"))
-        query.equalTo("price", request.object.get("price"))
-        query.equalTo("name", request.object.get("name"))
+        query.equalTo("bountyId", request.object.get("uid"))
+        query.equalTo("bountyPrice", request.object.get("price"))
+        query.equalTo("bountyName", request.object.get("name"))
         logger.info(`Bounty | Query: ${query}`)
         const claimedBounty = await query.first()
         logger.info(`Bounty | claimedBounty: ${JSON.stringify(claimedBounty)}`)
