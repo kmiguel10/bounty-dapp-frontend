@@ -5,6 +5,8 @@ import { useState } from "react"
 import BountyBox from "../components/BountyBox"
 import { Table } from "@web3uikit/core"
 import Moralis from "moralis-v1/types"
+import Button from "../components/ClaimButton"
+import { ethers } from "ethers"
 
 const Home: NextPage = () => {
     const { isWeb3Enabled } = useMoralis()
@@ -26,7 +28,9 @@ const Home: NextPage = () => {
         console.log(bounty.attributes)
         const { bountyId, bountyName, bountyPrice, bountyStatus } = bounty.attributes
 
-        item.push(bountyId, bountyName, bountyPrice, bountyStatus.toString())
+        const priceInEth = ethers.utils.formatUnits(bountyPrice, 18)
+
+        item.push(bountyId, bountyName, priceInEth, bountyStatus.toString(), <Button />)
         bounties.push(item)
     })
 
