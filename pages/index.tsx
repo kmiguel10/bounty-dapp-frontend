@@ -7,6 +7,8 @@ import { Table } from "@web3uikit/core"
 import Moralis from "moralis-v1/types"
 import Button from "../components/ClaimButton"
 import { ethers } from "ethers"
+import PostBountyForm from "../components/PostBountyForm"
+import PostBountyInputs from "../components/PostBountyInputs"
 
 const Home: NextPage = () => {
     const { isWeb3Enabled } = useMoralis()
@@ -39,41 +41,18 @@ const Home: NextPage = () => {
     return (
         <div>
             <div className={styles.container}>
+                <PostBountyInputs />
+            </div>
+            {/* <div className={styles.container}>
+                <PostBountyForm />
+            </div> */}
+            <div className={styles.container}>
                 {fetchingActiveBounties ? (
                     <div>Loading . . .</div>
                 ) : (
-                    // activeBounties.map((bounty) => {
-                    //     console.log(bounty.attributes)
-                    //     const { bountyId, bountyName, bountyPrice, bountyStatus } =
-                    //         bounty.attributes
-                    //     return (
-                    //         <div key={bountyId}>
-                    //             <BountyBox
-                    //                 bountyId={bountyId}
-                    //                 bountyName={bountyName}
-                    //                 bountyPrice={bountyPrice}
-                    //                 bountyStatus={bountyStatus}
-                    //             />
-
-                    //         </div>
-                    //     )
-                    // })
                     <BountyBox bounties={bounties} />
                 )}
             </div>
-            {/* <div>
-                <Table
-                    columnsConfig="80px 3fr 2fr 2fr 80px"
-                    data={bounties}
-                    isColumnSortable={[true, false, false]}
-                    maxPages={3}
-                    // eslint-disable-next-line react/jsx-key
-                    header={[<span>ID</span>, <span>Name</span>, <span>Price</span>]}
-                    onPageNumberChanged={function noRefCheck() {}}
-                    onRowClick={function noRefCheck() {}}
-                    pageSize={5}
-                />
-            </div> */}
         </div>
     )
 }

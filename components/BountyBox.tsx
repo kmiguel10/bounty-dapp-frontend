@@ -49,7 +49,6 @@ const BountyBox: NextPage<BountyBoxProps> = ({ bounties }: BountyBoxProps) => {
                 onRowClick={function noRefCheck() {}}
                 pageSize={5}
             />
-            {chainId}
         </div>
     )
 }
