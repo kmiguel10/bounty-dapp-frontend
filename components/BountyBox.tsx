@@ -17,7 +17,7 @@ const chainId = process.env.chainId || "31337"
 let id = chainId ? "31337" : chainId.toString()
 
 const BountyBox: NextPage<BountyBoxProps> = ({ bounties }: BountyBoxProps) => {
-    const bountyAddress = contractAddresses[chainId]["BountyFactory"][0]
+    const bountyAddress = contractAddresses[id]["BountyFactory"][0]
     console.log("contractAddresses", contractAddresses, bountyAddress)
     const { runContractFunction: claimBounty } = useWeb3Contract({
         abi: bountyAbi,
@@ -31,7 +31,7 @@ const BountyBox: NextPage<BountyBoxProps> = ({ bounties }: BountyBoxProps) => {
                 columnsConfig="80px 3fr 2fr 2fr 80px"
                 data={bounties}
                 isColumnSortable={[false, true, false, false]}
-                maxPages={3}
+                maxPages={5}
                 // eslint-disable-next-line react/jsx-key
                 header={[
                     // eslint-disable-next-line react/jsx-key

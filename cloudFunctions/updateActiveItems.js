@@ -62,6 +62,6 @@ Moralis.Cloud.afterSave("ClaimBounty", async (request) => {
             )
         }
     } else {
-        logger.info(`No bounty with id: ${request.object.get("uid")}`)
+        logger.info(`No bounty with id: ${request.object.get("uid")} to delete`)
     }
 })
