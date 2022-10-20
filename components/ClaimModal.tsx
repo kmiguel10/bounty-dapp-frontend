@@ -1,5 +1,5 @@
 import React from "react"
-import { Button, Input, Modal, Typography } from "@web3uikit/core"
+import { Button, Input, Modal, Typography, useNotification } from "web3uikit"
 import { useState } from "react"
 import bountyAbi from "../constants/BountyFactory.json"
 import contractAddresses from "../constants/networkMapping.json"
@@ -15,9 +15,11 @@ interface ClaimModalProps {
 }
 
 const ClaimModal = ({ isVisible, bountyId, onClose }: ClaimModalProps) => {
+    const dispatch = useNotification()
     const [secretKey, setSecretKey] = useState("")
     const chainId: string = process.env.chainId || "31337"
     const bountyAddress = contractAddresses[chainId]["BountyFactory"][0]
+
     const { runContractFunction: claimBounty } = useWeb3Contract({
         abi: bountyAbi,
         contractAddress: bountyAddress,
@@ -25,16 +27,33 @@ const ClaimModal = ({ isVisible, bountyId, onClose }: ClaimModalProps) => {
         params: { _bountyId: bountyId, _secretKey: secretKey },
     })
 
+    const handleClaimBountySuccess = () => {
+        dispatch({
+            type: "success",
+            message: "Claimed Bounty Successfully",
+            title: "Claimed Bounty - please refresh",
+            position: "topR",
+        })
+        onClose && onClose()
+    }
+
     return (
         <div>
             <Modal
-                cancelText="Discard Changes"
+                cancelText="Cancel"
                 id="regular"
                 isVisible={isVisible}
-                okText="Save Changes"
-                onCancel={function noRefCheck() {}}
+                okText="Claim Bounty"
+                onCancel={onClose}
                 onCloseButtonPressed={onClose}
-                onOk={function noRefCheck() {}}
+                onOk={() =>
+                    claimBounty({
+                        onError(error) {
+                            console.log("Errors", error)
+                        },
+                        onSuccess: handleClaimBountySuccess,
+                    })
+                }
                 title={
                     <div style={{ display: "flex", gap: 10 }}>
                         <Typography color="#68738D" variant="h3">
@@ -58,7 +77,7 @@ const ClaimModal = ({ isVisible, bountyId, onClose }: ClaimModalProps) => {
                         value={secretKey}
                     />
                 </div>
-                <div>
+                {/* <div>
                     <Button
                         text="Claim"
                         onClick={() =>
@@ -66,10 +85,11 @@ const ClaimModal = ({ isVisible, bountyId, onClose }: ClaimModalProps) => {
                                 onError(error) {
                                     console.log("Errors", error)
                                 },
+                                onSuccess: handleClaimBountySuccess,
                             })
                         }
                     />
-                </div>
+                </div> */}
             </Modal>
         </div>
     )

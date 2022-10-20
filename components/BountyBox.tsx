@@ -5,6 +5,7 @@ import { Moralis } from "moralis-v1/types"
 import bountyAbi from "../constants/BountyFactory.json"
 import contractAddresses from "../constants/networkMapping.json"
 import { useWeb3Contract } from "react-moralis"
+import { NotificationProvider } from "web3uikit"
 // import * as dotenv from "dotenv"
 // require("dotenv").config({ path: "../.env" })
 
