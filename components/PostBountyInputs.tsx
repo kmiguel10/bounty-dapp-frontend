@@ -1,15 +1,15 @@
 import React from "react"
-import { Input, Button } from "web3uikit"
+import { Input, Button, useNotification } from "web3uikit"
 import { useState } from "react"
 import bountyAbi from "../constants/BountyFactory.json"
 import contractAddresses from "../constants/networkMapping.json"
 import { useWeb3Contract } from "react-moralis"
-import type { NextPage } from "next"
 import { ethers } from "ethers"
 
-const PostBountyInputs: NextPage = () => {
+const PostBountyInputs = () => {
+    const dispatch = useNotification()
     const [bountyName, setBountyName] = useState("")
-    const [bountyPrice, setBountyPrice] = useState("")
+    const [bountyPrice, setBountyPrice] = useState<string | undefined>()
 
     const chainId: string = process.env.chainId || "31337"
     const bountyAddress = contractAddresses[chainId]["BountyFactory"][0]
@@ -18,9 +18,21 @@ const PostBountyInputs: NextPage = () => {
         abi: bountyAbi,
         contractAddress: bountyAddress,
         functionName: "postBounty",
-        msgValue: bountyPrice,
+        msgValue: ethers.utils.parseEther(bountyPrice || "0"),
         params: { _name: bountyName },
     })
+
+    const handlePostBountySuccess = () => {
+        dispatch({
+            type: "success",
+            message: "Posted Bounty Successfully",
+            title: "Posted Bounty - please refresh",
+            position: "topR",
+        })
+        //reset inputs
+        setBountyName("")
+        setBountyPrice("")
+    }
 
     return (
         <div>
@@ -50,7 +62,7 @@ const PostBountyInputs: NextPage = () => {
                         const etherVal = ethers.utils.parseEther(event.target.value)
 
                         // const etherInt = ethers.BigNumber.from(etherVal).toNumber()
-                        setBountyPrice(etherVal.toString())
+                        setBountyPrice(event.target.value)
                         console.log(etherVal, bountyPrice)
                     }}
                     value={bountyPrice}
@@ -67,6 +79,7 @@ const PostBountyInputs: NextPage = () => {
                             onError(error) {
                                 console.log("Errors", error)
                             },
+                            onSuccess: () => handlePostBountySuccess(),
                         })
                     }
                 />
