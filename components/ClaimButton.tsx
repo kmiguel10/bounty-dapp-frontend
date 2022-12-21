@@ -17,7 +17,7 @@ const ClaimButton = ({ bountyId }: ClaimButtonProp) => {
     const handleClaimButtonClick = () => setShowModal(true)
 
     return (
-        <div>
+        <div key={bountyId}>
             {bountyId}
             <Button text="Claim" onClick={handleClaimButtonClick}></Button>
             <ClaimModal isVisible={showModal} bountyId={bountyId} onClose={hideModal} />

@@ -4,7 +4,7 @@ import { useState } from "react"
 import bountyAbi from "../constants/BountyFactory.json"
 import contractAddresses from "../constants/networkMapping.json"
 import { useWeb3Contract } from "react-moralis"
-import { ethers } from "ethers"
+import { BigNumber, ethers } from "ethers"
 
 const PostBountyInputs = () => {
     const dispatch = useNotification()
@@ -18,7 +18,7 @@ const PostBountyInputs = () => {
         abi: bountyAbi,
         contractAddress: bountyAddress,
         functionName: "postBounty",
-        msgValue: ethers.utils.parseEther(bountyPrice || "0"),
+        msgValue: ethers.utils.parseEther(bountyPrice || "0").toString(),
         params: { _name: bountyName },
     })
 
