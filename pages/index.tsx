@@ -1,43 +1,69 @@
 import type { NextPage } from "next"
 import styles from "../styles/Home.module.css"
-import { useMoralisQuery, useMoralis } from "react-moralis"
+import { useMoralis } from "react-moralis"
 import { useState } from "react"
 import BountyBox from "../components/BountyBox"
 import ClaimButton from "../components/ClaimButton"
 import { ethers } from "ethers"
 import PostBountyInputs from "../components/PostBountyInputs"
+import contractAddresses from "../constants/networkMapping.json"
+import GET_ACTIVE_ITEMS from "../constants/subgraphQueries"
+import { useQuery } from "@apollo/client"
+
+interface contractAddressesInterface {
+    [key: string]: contractAddressesItemInterface
+}
+
+interface contractAddressesItemInterface {
+    [key: string]: string[]
+}
+
+interface bountyInterface {
+    id: string
+    name: string
+    owner: number
+    price: boolean
+    action: object
+}
 
 const Home: NextPage = () => {
-    const { isWeb3Enabled } = useMoralis()
+    const { isWeb3Enabled, chainId } = useMoralis()
     const [page, setPage] = useState(1)
-    const { data: activeBounties, isFetching: fetchingActiveBounties } = useMoralisQuery(
-        //TableName
-        //Function for the Query
-        "ActiveItem",
-        (query) => query.limit(20).descending("uid")
-    )
 
-    const bounties: any[] = []
+    const addresses: contractAddressesInterface = contractAddresses
 
-    console.log("Active Bounties", activeBounties)
+    const bountyContractAddress = chainId
+        ? addresses[parseInt(chainId!.toString())]["BountyFactory"][0]
+        : null
+
+    const bounties: bountyInterface[] = []
+
+    const {
+        loading,
+        error: subgraphQueryError,
+        data: queriedBounties,
+    } = useQuery(GET_ACTIVE_ITEMS)
+
+    console.log("Active Bounties", queriedBounties)
 
     //Get bounties array
-    activeBounties.map((bounty) => {
-        const item: any = []
-        console.log(bounty.attributes)
-        const { bountyId, bountyName, bountyPrice, bountyStatus } = bounty.attributes
+    if (!loading || queriedBounties) {
+        queriedBounties.activeBounties.map((bounty: bountyInterface) => {
+            console.log("Active Bounties inside loop", queriedBounties)
+            const item: any = []
+            const { id, name, owner, price, action } = bounty
 
-        const priceInEth = ethers.utils.formatUnits(bountyPrice, 18)
+            console.log("bounty", bounty)
 
-        item.push(
-            bountyId,
-            bountyName,
-            priceInEth,
-            bountyStatus.toString(),
-            <ClaimButton key={bountyId} bountyId={bountyId} />
-        )
-        bounties.push(item)
-    })
+            //const priceInEth = ethers.utils.formatUnits(bountyPrice, 18)
+            let idString = id.substring(2, 3)
+            let idInt = parseInt(idString)
+
+            item.push(idString, name, owner, price, <ClaimButton key={id} bountyId={idInt} />)
+            bounties.push(item)
+            console.log("item", item)
+        })
+    }
 
     return (
         <div>
@@ -48,10 +74,15 @@ const Home: NextPage = () => {
                         <PostBountyInputs />
                     </div>
                     <div className={styles.container}>
-                        {fetchingActiveBounties ? (
+                        {loading || !queriedBounties ? (
                             <div>Loading . . .</div>
                         ) : (
-                            <BountyBox bounties={bounties} />
+                            // {queriedBounties}
+                            <div>
+                                {" "}
+                                <BountyBox bounties={bounties} />
+                                {/* <div>{queriedBounties}</div> */}
+                            </div>
                         )}
                     </div>
                 </div>

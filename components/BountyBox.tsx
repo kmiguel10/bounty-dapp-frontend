@@ -10,7 +10,14 @@ import { NotificationProvider } from "web3uikit"
 // require("dotenv").config({ path: "../.env" })
 
 interface BountyBoxProps {
-    bounties: any[]
+    bounties: bountyInterface[]
+}
+
+interface bountyInterface {
+    bountyId: number
+    bountyName: string
+    bountyPrice: number
+    bountyStatus: boolean
 }
 
 const chainId = process.env.chainId || "31337"
@@ -40,9 +47,9 @@ const BountyBox: NextPage<BountyBoxProps> = ({ bounties }: BountyBoxProps) => {
                     // eslint-disable-next-line react/jsx-key
                     <span>Name</span>,
                     // eslint-disable-next-line react/jsx-key
-                    <span>Price in ETH</span>,
+                    <span>Owner</span>,
                     // eslint-disable-next-line react/jsx-key
-                    <span>Status</span>,
+                    <span>Price in ETH</span>,
                     // eslint-disable-next-line react/jsx-key
                     <span>Action</span>,
                 ]}
