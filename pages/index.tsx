@@ -21,8 +21,8 @@ interface contractAddressesItemInterface {
 interface bountyInterface {
     id: string
     name: string
-    owner: number
-    price: boolean
+    owner: string
+    price: number
     action: object
 }
 
@@ -58,8 +58,17 @@ const Home: NextPage = () => {
             //const priceInEth = ethers.utils.formatUnits(bountyPrice, 18)
             let idString = id.substring(2, 3)
             let idInt = parseInt(idString)
+            let priceInEth = ethers.utils.formatEther(price)
+            const emptyAddress = ethers.constants.AddressZero
+            let bountyClaimed = owner == emptyAddress ? false : true
 
-            item.push(idInt, name, owner, price, <ClaimButton key={idInt} bountyId={idInt} />)
+            item.push(
+                idInt,
+                name,
+                owner,
+                priceInEth,
+                <ClaimButton key={idInt} bountyId={idInt} disabledFlag={bountyClaimed} />
+            )
             bounties.push(item)
             console.log("item", item)
         })

@@ -8,9 +8,10 @@ import ClaimModal from "./ClaimModal"
 // secret key is from user input
 interface ClaimButtonProp {
     bountyId: number
+    disabledFlag: boolean
 }
 
-const ClaimButton = ({ bountyId }: ClaimButtonProp) => {
+const ClaimButton = ({ bountyId, disabledFlag }: ClaimButtonProp) => {
     //State to handle claim modal
     const [showModal, setShowModal] = useState(false)
     const hideModal = () => setShowModal(false)
@@ -19,7 +20,7 @@ const ClaimButton = ({ bountyId }: ClaimButtonProp) => {
     return (
         <div key={bountyId}>
             {bountyId}
-            <Button text="Claim" onClick={handleClaimButtonClick}></Button>
+            <Button text="Claim" disabled={disabledFlag} onClick={handleClaimButtonClick}></Button>
             <ClaimModal isVisible={showModal} bountyId={bountyId} onClose={hideModal} />
         </div>
     )

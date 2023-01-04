@@ -17,8 +17,8 @@ interface BountyBoxProps {
 interface bountyInterface {
     id: string
     name: string
-    owner: number
-    price: boolean
+    owner: string
+    price: number
     action: object
 }
 
