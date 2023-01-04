@@ -8,7 +8,7 @@ import { ApolloProvider, ApolloClient, InMemoryCache } from "@apollo/client"
 
 const client = new ApolloClient({
     cache: new InMemoryCache(),
-    uri: "https://api.studio.thegraph.com/query/39894/decentralized-bounty/0.0.1",
+    uri: "https://api.studio.thegraph.com/query/39894/decentralized-bounty/v0.0.3",
 })
 
 function MyApp({ Component, pageProps }: AppProps) {

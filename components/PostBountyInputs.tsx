@@ -11,7 +11,7 @@ const PostBountyInputs = () => {
     const [bountyName, setBountyName] = useState("")
     const [bountyPrice, setBountyPrice] = useState<string | undefined>()
 
-    const chainId: string = process.env.chainId || "31337"
+    const chainId: string = process.env.chainId || "5"
     const bountyAddress = contractAddresses[chainId]["BountyFactory"][0]
 
     const { runContractFunction: postBounty } = useWeb3Contract({

@@ -11,20 +11,19 @@ import { NotificationProvider } from "web3uikit"
 
 interface BountyBoxProps {
     bounties: bountyInterface[]
+    chainId: string
 }
 
 interface bountyInterface {
-    bountyId: number
-    bountyName: string
-    bountyPrice: number
-    bountyStatus: boolean
+    id: string
+    name: string
+    owner: number
+    price: boolean
+    action: object
 }
 
-const chainId = process.env.chainId || "31337"
-
-let id = chainId ? "31337" : chainId.toString()
-
-const BountyBox: NextPage<BountyBoxProps> = ({ bounties }: BountyBoxProps) => {
+const BountyBox: NextPage<BountyBoxProps> = ({ bounties, chainId }: BountyBoxProps) => {
+    const id = parseInt(chainId)
     const bountyAddress = contractAddresses[id]["BountyFactory"][0]
     console.log("contractAddresses", contractAddresses, bountyAddress)
     const { runContractFunction: claimBounty } = useWeb3Contract({
@@ -35,6 +34,9 @@ const BountyBox: NextPage<BountyBoxProps> = ({ bounties }: BountyBoxProps) => {
     })
     return (
         <div>
+            <div>
+                id: {id} {bountyAddress}
+            </div>
             <Table
                 columnsConfig="80px 3fr 2fr 2fr 80px"
                 data={bounties}

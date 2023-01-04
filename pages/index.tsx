@@ -59,7 +59,7 @@ const Home: NextPage = () => {
             let idString = id.substring(2, 3)
             let idInt = parseInt(idString)
 
-            item.push(idString, name, owner, price, <ClaimButton key={id} bountyId={idInt} />)
+            item.push(idInt, name, owner, price, <ClaimButton key={idInt} bountyId={idInt} />)
             bounties.push(item)
             console.log("item", item)
         })
@@ -80,7 +80,7 @@ const Home: NextPage = () => {
                             // {queriedBounties}
                             <div>
                                 {" "}
-                                <BountyBox bounties={bounties} />
+                                <BountyBox bounties={bounties} chainId={chainId} />
                                 {/* <div>{queriedBounties}</div> */}
                             </div>
                         )}
