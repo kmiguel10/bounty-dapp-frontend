@@ -3,7 +3,7 @@ import { useQuery, gql } from "@apollo/client"
 
 const GET_ACTIVE_ITEMS = gql`
     {
-        activeBounties(first: 5) {
+        activeBounties {
             id
             owner
             name

@@ -9,6 +9,8 @@ import PostBountyInputs from "../components/PostBountyInputs"
 import contractAddresses from "../constants/networkMapping.json"
 import GET_ACTIVE_ITEMS from "../constants/subgraphQueries"
 import { useQuery } from "@apollo/client"
+import { Button } from "@web3uikit/core"
+import PostButton from "../components/PostButton"
 
 interface contractAddressesInterface {
     [key: string]: contractAddressesItemInterface
@@ -79,6 +81,10 @@ const Home: NextPage = () => {
             {isWeb3Enabled ? (
                 <div>
                     {" "}
+                    <div>Insert Button here</div>
+                    <div>
+                        <PostButton />
+                    </div>
                     <div className={styles.container}>
                         <PostBountyInputs />
                     </div>
