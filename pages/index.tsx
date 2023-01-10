@@ -81,13 +81,12 @@ const Home: NextPage = () => {
             {isWeb3Enabled ? (
                 <div>
                     {" "}
-                    <div>Insert Button here</div>
-                    <div>
+                    <div className={styles.container}>
                         <PostButton />
                     </div>
-                    <div className={styles.container}>
+                    {/* <div className={styles.container}>
                         <PostBountyInputs />
-                    </div>
+                    </div> */}
                     <div className={styles.container}>
                         {loading || !queriedBounties ? (
                             <div>Loading . . .</div>

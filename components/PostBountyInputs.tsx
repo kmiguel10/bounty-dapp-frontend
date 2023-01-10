@@ -36,9 +36,6 @@ const PostBountyInputs = () => {
 
     return (
         <div>
-            <h1>PostBountyInputs</h1>
-
-            <br />
             <div>
                 <Input
                     label="Bounty Name"
