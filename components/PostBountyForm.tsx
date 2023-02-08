@@ -10,7 +10,6 @@ import { ethers } from "ethers"
 
 const PostBountyForm: NextPage = () => {
     const bountyName: string = "test2"
-    const price = ethers.utils.parseEther("1")
     //const bountyPrice: number = 1
     const chainId = process.env.chainId || "31337"
     const bountyAddress = contractAddresses[chainId]["BountyFactory"][0]

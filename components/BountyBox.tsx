@@ -10,14 +10,20 @@ import { NotificationProvider } from "web3uikit"
 // require("dotenv").config({ path: "../.env" })
 
 interface BountyBoxProps {
-    bounties: any[]
+    bounties: bountyInterface[]
+    chainId: string
 }
 
-const chainId = process.env.chainId || "31337"
+interface bountyInterface {
+    id: string
+    name: string
+    owner: string
+    price: number
+    action: object
+}
 
-let id = chainId ? "31337" : chainId.toString()
-
-const BountyBox: NextPage<BountyBoxProps> = ({ bounties }: BountyBoxProps) => {
+const BountyBox: NextPage<BountyBoxProps> = ({ bounties, chainId }: BountyBoxProps) => {
+    const id = parseInt(chainId)
     const bountyAddress = contractAddresses[id]["BountyFactory"][0]
     console.log("contractAddresses", contractAddresses, bountyAddress)
     const { runContractFunction: claimBounty } = useWeb3Contract({
@@ -28,6 +34,9 @@ const BountyBox: NextPage<BountyBoxProps> = ({ bounties }: BountyBoxProps) => {
     })
     return (
         <div>
+            <div>
+                id: {id} {bountyAddress}
+            </div>
             <Table
                 columnsConfig="80px 3fr 2fr 2fr 80px"
                 data={bounties}
@@ -40,9 +49,9 @@ const BountyBox: NextPage<BountyBoxProps> = ({ bounties }: BountyBoxProps) => {
                     // eslint-disable-next-line react/jsx-key
                     <span>Name</span>,
                     // eslint-disable-next-line react/jsx-key
-                    <span>Price in ETH</span>,
+                    <span>Owner</span>,
                     // eslint-disable-next-line react/jsx-key
-                    <span>Status</span>,
+                    <span>Price in ETH</span>,
                     // eslint-disable-next-line react/jsx-key
                     <span>Action</span>,
                 ]}

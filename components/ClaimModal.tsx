@@ -40,6 +40,7 @@ const ClaimModal = ({ isVisible, bountyId, onClose }: ClaimModalProps) => {
     return (
         <div>
             <Modal
+                key={bountyId}
                 cancelText="Cancel"
                 id="regular"
                 isVisible={isVisible}
